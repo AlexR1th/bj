@@ -12,16 +12,14 @@
         <#--        <img src="${card.img}" alt="${card.img}" style="height: 120px;width: 70px">-->
         <img style=" margin: 35% 45%; height: 120px;width: 70px" src="/img/img_1.png" alt="lol">
 
-        <div style="display: flex; justify-content: center; padding-bottom: 5px;">
-        <#list deck as card>
-                <ul>
-                    <li>
-                        <img src="${card.img}" alt="${card.img}" style="height: 120px;width: 70px">
-                    </li>
-                </ul>
-
+        <a href="/web/cards/pick">pick the card</a>
+        <#list delivery as card>
+            <ul>
+                <li>
+             <img src="${card.img}" style="height: 70px; width: 35px">
+                </li>
+            </ul>
         </#list>
-            </div>
     </div>
 </div>
 </body>

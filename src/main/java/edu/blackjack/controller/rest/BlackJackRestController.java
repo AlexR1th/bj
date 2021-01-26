@@ -13,7 +13,7 @@ public class BlackJackRestController {
     BlackJackService service;
 @RequestMapping("/pick")
     public Card pickCard(){
-        return service.pick();
+        return service.pickFirstCardFromShuffledDeck();
     }
 
 }

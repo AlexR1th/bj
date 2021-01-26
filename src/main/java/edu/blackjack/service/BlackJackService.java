@@ -7,14 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Service
 public class BlackJackService {
+
     @Autowired
     Data data;
     List<Card> deck;
+
+    List<Card> delivery = new ArrayList<>();
 
     @PostConstruct
     void init() {
@@ -26,10 +30,16 @@ public class BlackJackService {
         return deck;
     }
 
-    public Card pick() {
+    public Card pickFirstCardFromShuffledDeck() {
         Card card = this.getShuffleDeck().get(0);
-        deck.remove(card);
+        deck.remove(card);//Удилить эту карту из колоды !!
         return card;
+    }
+
+    public List<Card> getCardList() {
+        Card card = this.pickFirstCardFromShuffledDeck();
+        delivery.add(card);// выдать эту карту на роздачу !
+        return delivery;
     }
 
     public Player InitPlayer(Player player) {
@@ -44,9 +54,11 @@ public class BlackJackService {
     }
 
     public Card showSixPike() {
-        Card sixPike = deck.get(0);
-        sixPike.setImg("/img/img.png");
+        Card sixPike = deck.get(4);
         return sixPike;
     }
 
+    public List<Card> getDeck() {
+        return deck;
+    }
 }

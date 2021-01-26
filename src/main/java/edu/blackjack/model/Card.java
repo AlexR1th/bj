@@ -8,7 +8,9 @@ public class Card {
     private int value;
     private String img;
 
+
     public Card() {
+
     }
 
     public Card(Suit suit, Nominal nominal, int value) {
