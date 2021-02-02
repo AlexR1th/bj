@@ -1,28 +1,24 @@
-<!DOCTYPE html>
+<#import "/spring.ftl" as spring/>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Table</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/style.css" type="text/css">
+    <link rel="stylesheet"
+          type="text/css" href="<@spring.url '/css/style.css'/>"/>
+    <title>Document</title>
 </head>
-<body style="background: grey">
-<div style="display: flex; justify-content: center;align-content: center; height: 100%">
-    <div class="wrap" style="width: 500px; height: 500px;background: green">
-        <#--        ${card.suit}-->
-        <#--        ${card.nominal}-->
-        <#--        <img src="${card.img}" alt="${card.img}" style="height: 120px;width: 70px">-->
-        <img style=" margin: 35% 45%; height: 120px;width: 70px" src="/img/img_1.png" alt="lol">
-
-        <div style="display: flex; justify-content: center; padding-bottom: 5px;">
-        <#list deck as card>
-                <ul>
-                    <li>
-                        <img src="${card.img}" alt="${card.img}" style="height: 120px;width: 70px">
-                    </li>
-                </ul>
-
-        </#list>
-            </div>
+<body>
+<div class="table">
+    <div class="backSideCard">
+        <a id="bSideCard" href="/web/cards/pick">
+            <img src="/img/img_1.png" alt="lol">
+        </a>
     </div>
+</div>
 </div>
 </body>
 </html>

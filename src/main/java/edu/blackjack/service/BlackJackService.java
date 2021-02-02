@@ -16,19 +16,55 @@ public class BlackJackService {
 
     @Autowired
     Data data;
-    List<Card> deck;
-
+    List<Card> deck = new ArrayList<>();
+    boolean isStop = false;
     List<Card> delivery = new ArrayList<>();
+    List<Card> forPC = new ArrayList<>();
+    public int counterPlayer = 0;
+    public int counterPC = 0;
+    public int round = 1;
+
 
     @PostConstruct
-    void init() {
-        deck = data.getDeck();
+    public void init() {
+        deck = new ArrayList<>(data.getDeck());
+
+    }
+
+    public void setScore(boolean youWin) {
+        if (youWin == true) {
+            counterPlayer++;
+        } else {
+            counterPC++;
+        }
+
     }
 
     public List<Card> getShuffleDeck() {
         Collections.shuffle(deck);
         return deck;
     }
+
+    public void playNext() {
+        delivery = new ArrayList<>();
+        forPC = new ArrayList<>();
+    }
+
+    public void newGame() {
+        delivery = new ArrayList<>();
+        forPC = new ArrayList<>();
+        deck = new ArrayList<>();
+        deck = data.getDeck();
+        counterPC = 0;
+        counterPlayer = 0;
+        round = 1;
+    }
+
+    public int getDeckSize() {
+
+        return deck.size();
+    }
+
 
     public Card pickFirstCardFromShuffledDeck() {
         Card card = this.getShuffleDeck().get(0);
@@ -37,8 +73,11 @@ public class BlackJackService {
     }
 
     public List<Card> getCardList() {
-        Card card = this.pickFirstCardFromShuffledDeck();
-        delivery.add(card);// выдать эту карту на роздачу !
+        if (!isStop || delivery.stream().mapToInt(Card::getValue).sum() < 20) {
+            //delivery.stream().mapToInt(Card::getValue).sum() < 20
+            Card card = this.pickFirstCardFromShuffledDeck();
+            delivery.add(card);// выдать эту карту на роздачу !
+        }
         return delivery;
     }
 
@@ -58,7 +97,74 @@ public class BlackJackService {
         return sixPike;
     }
 
+
     public List<Card> getDeck() {
         return deck;
     }
+
+
+    public List<Card> getDelivery() {
+        return delivery;
+    }
+
+    public List<Card> getDeliveryForPC() {
+        for (int i = 0; i < 3; i++) {
+            if (forPC.size() < 3) {
+                Card card = this.pickFirstCardFromShuffledDeck();
+                forPC.add(card);
+            }
+        }
+
+
+        return forPC;
+    }
+
+    public String getWinner(int sum, int sum2) {
+        String youWin = "You are WinNer";
+        String loser = "You are LosSer";
+        String draw = "Draw";
+        String message = "";
+        isStop = true;
+
+        if (sum == sum2) {
+            message = draw;
+        } else {
+            if (sum == 21 && sum2 != 21) {
+                message = youWin;
+            } else {
+                if (sum < 21 && sum2 > 21) {
+                    message = youWin;
+                } else {
+                    if (sum < 21 && sum2 < 21 && sum > sum2) {
+                        message = youWin;
+                    } else {
+                        if (sum < 21 && sum2 < 21 && sum < sum2) {
+                            message = loser;
+                        } else {
+                            if (sum > 21 && sum2 > 21 && sum < sum2) {
+                                message = youWin;
+                            } else {
+                                if (sum > 21 && sum2 > 21 && sum > sum2) {
+                                    message = loser;
+                                } else {
+                                    if (sum > 21 && sum2 < 21) {
+                                        message = loser;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+        if (message.equals(youWin)) {
+            this.setScore(true);
+        } else {
+            this.setScore(false);
+        }
+        round ++;
+        return message;
+    }
+
 }

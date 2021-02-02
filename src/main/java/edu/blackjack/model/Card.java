@@ -7,10 +7,27 @@ public class Card {
     private Nominal nominal;
     private int value;
     private String img;
+    private String backImg;
 
 
     public Card() {
 
+    }
+
+    public Card(Suit suit, Nominal nominal, int value, String img, String backImg) {
+        this.suit = suit;
+        this.nominal = nominal;
+        this.value = value;
+        this.img = img;
+        this.backImg = backImg;
+    }
+
+    public String getBackImg() {
+        return backImg;
+    }
+
+    public void setBackImg(String backImg) {
+        this.backImg = backImg;
     }
 
     public Card(Suit suit, Nominal nominal, int value) {
