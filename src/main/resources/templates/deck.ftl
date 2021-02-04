@@ -17,11 +17,10 @@
         <button>Stop</button>
     </a>
     <div class="table">
+        <h1>ROUND <<${round}>></h1>
         <div class="backSideCard">
-            <h1>ROUND <<${round}>></h1>
-
             <a id="bSideCard" href="/web/cards/pick">
-                <h1 style="position: absolute; margin-left: 25px ; color: aliceblue;border: solid black;background: black">${sizeDeck}</h1>
+                <h1 style="position: absolute; margin-left: 22px ; color: aliceblue;border: solid black;background: black">${sizeDeck}</h1>
                 <img src="/img/img_1.png" alt="lol">
             </a>
         </div>
@@ -29,9 +28,7 @@
             <h3 class="sumCard">${sum}</h3>
             <ul>
                 <#list delivery as card>
-
                     <li>
-
                         <img src="${card.img}" alt="card">
                     </li>
 

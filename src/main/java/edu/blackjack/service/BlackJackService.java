@@ -39,16 +39,17 @@ public class BlackJackService {
         }
 
     }
+    public void  setRound(boolean youWin){
+        if (youWin == false) {
+            round++;
+        }
+    }
 
     public List<Card> getShuffleDeck() {
         Collections.shuffle(deck);
         return deck;
     }
 
-    public void playNext() {
-        delivery = new ArrayList<>();
-        forPC = new ArrayList<>();
-    }
 
     public void newGame() {
         delivery = new ArrayList<>();
@@ -90,11 +91,6 @@ public class BlackJackService {
     public int getPlayerSum(Player player) {
         List<Card> cards = player.getPrivateSet();
         return cards.stream().mapToInt(Card::getValue).sum();
-    }
-
-    public Card showSixPike() {
-        Card sixPike = deck.get(4);
-        return sixPike;
     }
 
 
@@ -154,7 +150,6 @@ public class BlackJackService {
                             }
                         }
                     }
-
                 }
             }
         }
@@ -163,8 +158,19 @@ public class BlackJackService {
         } else {
             this.setScore(false);
         }
-        round ++;
+        if (message.equals(loser) || message.equals(draw) && message.equals(youWin)) {
+            this.setRound(true);
+        }else {
+            this.setRound(false);
+        }
+
+
         return message;
+    }
+    public void playNext() {
+        delivery = new ArrayList<>();
+        forPC = new ArrayList<>();
+
     }
 
 }

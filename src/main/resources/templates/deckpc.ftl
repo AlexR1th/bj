@@ -21,8 +21,8 @@
         <button>New Game
         </button>
     </a>
-    <a href="/web/cards/pick">
-        <button>next Raund
+    <a href="/web/cards/nextround">
+        <button>next Round
         </button>
     </a>
     <a class="btnStop" href="/web/cards/stop">
@@ -32,7 +32,7 @@
         <h1>ROUND <<${round}>></h1>
         <h2>Player ${score} PC</h2>
         <div class="backSideCard">
-            <h1 style="position: absolute; margin-left: 25px ; color: aliceblue;border: solid black;background: black">${sizeDeck}</h1>
+            <h1 style="position: absolute; margin-left: 22px ; color: aliceblue;border: solid black;background: black">${sizeDeck}</h1>
             <a id="bSideCard" href="#">
                 <img src="/img/img_1.png" alt="lol">
             </a>

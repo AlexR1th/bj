@@ -21,9 +21,13 @@ public class WebController {
     public String showTable(Model model) {
         List<Card> delivery = new ArrayList<>();
         service.playNext();
+        int round = service.round;
+
+        model.addAttribute("round", round);
         model.addAttribute("delivery", delivery);
         return "gametable";
     }
+
 
     @RequestMapping("/refresh")
     public String refresh(Model model) {
@@ -64,6 +68,23 @@ public class WebController {
         model.addAttribute("delivery", delivery);
         return "deck";
     }
+    @RequestMapping("/nextround")
+    public String nextRound(Model model){
+        service.playNext();
+List<Card> delivery = service.getCardList();
+int sum = delivery.stream().mapToInt(Card::getValue).sum();
+        if (sum >= 20) {
+            return "redirect:/web/cards/stop";
+        }
+        int getDeckSize = service.getDeckSize();
+        int round = service.round;
+
+        model.addAttribute("round", round);
+        model.addAttribute("sizeDeck", getDeckSize);
+        model.addAttribute("sum", sum);
+        model.addAttribute("delivery", delivery);
+        return "deck";
+    }
 
     @RequestMapping("/stop")
     public String stop(Model model) {
@@ -89,11 +110,5 @@ public class WebController {
         return "deckpc";
     }
 
-
-    public String showSixPike(Model model) {
-        Card card = service.showSixPike();
-        model.addAttribute("card", card);
-        return "gametable";
-    }
 
 }
