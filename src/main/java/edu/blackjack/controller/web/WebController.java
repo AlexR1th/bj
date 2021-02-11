@@ -1,13 +1,16 @@
 package edu.blackjack.controller.web;
 
+import edu.blackjack.model.Round;
 import edu.blackjack.service.BlackJackService;
 import edu.blackjack.model.Card;
+import edu.blackjack.service.round.RoundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.aggregation.ArithmeticOperators;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +20,19 @@ public class WebController {
     @Autowired
     BlackJackService service;
 
+    @Autowired
+    RoundService roundService;
+    Round round;
+
     @RequestMapping("/game")
     public String showTable(Model model) {
         List<Card> delivery = new ArrayList<>();
         service.playNext();
-        int round = service.round;
+        int roundCounter = service.roundCounter;
+        round = RoundService.initRound();
 
-        model.addAttribute("round", round);
+
+        model.addAttribute("round", roundCounter);
         model.addAttribute("delivery", delivery);
         return "gametable";
     }
@@ -60,9 +69,10 @@ public class WebController {
             return "redirect:/web/cards/stop";
         }
         int getDeckSize = service.getDeckSize();
-        int round = service.round;
+        int roundCounter = service.roundCounter;
+//        round.setDelivery(delivery);
 
-        model.addAttribute("round", round);
+        model.addAttribute("round", roundCounter);
         model.addAttribute("sizeDeck", getDeckSize);
         model.addAttribute("sum", sum);
         model.addAttribute("delivery", delivery);
@@ -77,9 +87,9 @@ int sum = delivery.stream().mapToInt(Card::getValue).sum();
             return "redirect:/web/cards/stop";
         }
         int getDeckSize = service.getDeckSize();
-        int round = service.round;
+        int roundCounter = service.roundCounter;
 
-        model.addAttribute("round", round);
+        model.addAttribute("round", roundCounter);
         model.addAttribute("sizeDeck", getDeckSize);
         model.addAttribute("sum", sum);
         model.addAttribute("delivery", delivery);
@@ -97,9 +107,16 @@ int sum = delivery.stream().mapToInt(Card::getValue).sum();
         int counterPlayer = service.counterPlayer;
         int counterPC = service.counterPC;
         String score = "" + counterPlayer + ":" + counterPC;
-        int round = service.round;
+        int roundCounter = service.roundCounter;
 
-        model.addAttribute("round", round);
+//        round.setDeliveryPC(forPC);
+        round.setFinish(LocalDateTime.now());
+        if(message.equals("You are WinNer"))round.setWinner(true);
+        if(message.equals("You are LosSer"))round.setWinner(false);
+        round.setScore(score);
+        roundService.create(round);
+
+        model.addAttribute("round", roundCounter);
         model.addAttribute("score", score);
         model.addAttribute("sizeDeck", getDeckSize);
         model.addAttribute("sum", sum);
